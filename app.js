@@ -5,14 +5,14 @@ const { getPokemon, getRandomPokemon } = require('./pokemon');
 let playerHP = 300;
 let botHP = 300;
 
-// Fonction pour choisir un Pokémon pour le joueur
+// On choisit un prkemon pour le joueur
 async function playerChoosePokemon() {
   const { pokemonName } = await inquirer.prompt([
     {
       type: 'input',
       name: 'pokemonName',
       message: 'Choisissez un Pokémon :',
-      default: 'pikachu', // Suggestion par défaut
+      default: 'pikachu', //Par defaut on a le pokemon "pikachu"
     },
   ]);
 
@@ -21,18 +21,16 @@ async function playerChoosePokemon() {
   return playerPokemon;
 }
 
-// Fonction pour que le bot choisisse un Pokémon aléatoire
 async function botChoosePokemon() {
   const botPokemon = await getRandomPokemon();
   console.log(`Le bot a choisi ${botPokemon.name} !`);
   return botPokemon;
 }
 
-// Fonction pour exécuter un combat
 async function battle(playerPokemon, botPokemon) {
   console.log(`Début du combat entre ${playerPokemon.name} et ${botPokemon.name} !`);
   
-  // Les deux combattants utilisent leurs attaques jusqu'à ce que l'un tombe à 0 HP
+  // Utilisation des attaques jusqu'à ce que l'un tombe à 0 HP
   while (playerHP > 0 && botHP > 0) {
     // Le joueur choisit une attaque
     const { chosenMove } = await inquirer.prompt([
@@ -47,7 +45,7 @@ async function battle(playerPokemon, botPokemon) {
       },
     ]);
 
-    // Exécution de l'attaque du joueur
+    // Exécution de l'attaque 
     const playerMove = playerPokemon.moves[chosenMove];
     if (Math.random() < playerMove.accuracy) {
       botHP -= playerMove.power;
@@ -56,10 +54,8 @@ async function battle(playerPokemon, botPokemon) {
       console.log(`${playerPokemon.name} a raté son attaque !`);
     }
 
-    // Vérification si le bot est KO
     if (botHP <= 0) break;
 
-    // Le bot attaque le joueur
     let botMove = botPokemon.moves[Math.floor(Math.random() * botPokemon.moves.length)];
     if (Math.random() < botMove.accuracy) {
       playerHP -= botMove.power;
@@ -69,7 +65,7 @@ async function battle(playerPokemon, botPokemon) {
     }
   }
 
-  // Affichage du gagnant
+  //Affichage du gagnant
   if (playerHP <= 0) {
     console.log(`Le bot a gagné avec ${botHP} HP restants !`);
   } else {
@@ -77,7 +73,6 @@ async function battle(playerPokemon, botPokemon) {
   }
 }
 
-// Fonction principale
 async function main() {
   const playerPokemon = await playerChoosePokemon();
   const botPokemon = await botChoosePokemon();
