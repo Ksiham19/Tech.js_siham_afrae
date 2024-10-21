@@ -34,3 +34,28 @@ app.get('/items/:id', (req, res) => {
     res.status(404).send('Item not found');
   }
 });
+//Create a PUT Endpoint: This will allow us to update an existing item.
+app.put('/items/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = items.findIndex(i => i.id === id);
+
+  if (index !== -1) {
+    items[index] = req.body;
+    res.send(items[index]);
+  } else {
+    res.status(404).send('Item not found');
+  }
+});
+
+//Create a DELETE Endpoint: This will allow us to delete an item.
+app.delete('/items/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = items.findIndex(i => i.id === id);
+
+  if (index !== -1) {
+    const deletedItem = items.splice(index, 1);
+    res.send(deletedItem);
+  } else {
+    res.status(404).send('Item not found');
+  }
+});
