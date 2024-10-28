@@ -22,7 +22,7 @@ app.post('/books', (req, res) => {
     res.status(201).send(); // Respond with a status indicating the book was created
 });
 
-// Start the server
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
