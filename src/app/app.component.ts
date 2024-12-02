@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Book } from '../shared/book.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule], 
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
+
 export class AppComponent {
-  title = 'books-app';
+  books: Book[] = [
+    
+  ];
+
+  // Vérifie si la liste est vide
+  get isBooksEmpty(): boolean {
+    return this.books.length === 0;
+  }
+
+  // Bascule le statut d'un livre entre "Lu" et "Non lu"
+  toggleReadStatus(book: Book): void {
+    book.isRead = !book.isRead;
+  }
 }
